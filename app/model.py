@@ -1,21 +1,13 @@
 from transformers import pipeline
-import threading
+from typing import List, Dict
 
-_lock = threading.Lock()
-_classifier = None
+classifier = pipeline(
+    task="zero-shot-classification",
+    model="MoritzLaurer/deberta-v3-base-zeroshot-v1",
+    device=-1  # CPU only
+)
 
-def get_classifier():
-    global _classifier
-    with _lock:
-        if _classifier is None:
-            _classifier = pipeline(
-                "zero-shot-classification",
-                model="MoritzLaurer/deberta-v3-base-zeroshot-v1",
-            )
-        return _classifier
-
-def classify_text(text: str, labels: list[str]) -> dict:
-    classifier = get_classifier()
+def classify_text(text: str, labels: List[str]) -> Dict[str, float]:
     result = classifier(text, labels)
     return {
         "category": result["labels"][0],

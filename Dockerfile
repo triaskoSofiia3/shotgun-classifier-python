@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libopenblas-dev \
     libblas-dev \
     liblapack-dev \
-    gfortran \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
@@ -18,10 +17,10 @@ WORKDIR /app
 # Copy requirements
 COPY requirements.txt .
 
-# Install Python dependencies (CPU-only PyTorch)
+# Install Python dependencies (CPU-only PyTorch) in one step
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir torch==2.2.0 torchvision==0.17.0 \
-    && pip install --no-cache-dir fastapi uvicorn transformers
+    && pip install --no-cache-dir torch==2.1.2 torchvision==0.16.2 \
+    fastapi uvicorn transformers
 
 # Copy app code
 COPY . .
