@@ -1,26 +1,16 @@
-FROM python:3.11-slim
+# Use pre-built CPU-only PyTorch image
+FROM pytorch/pytorch:2.1.2-cpu
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    gcc \
-    libopenblas-dev \
-    libblas-dev \
-    liblapack-dev \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
-
-# Create a non-root user
+# Create non-root user
 RUN useradd --create-home appuser
 WORKDIR /app
 
-# Copy requirements
+# Copy requirements (minimal)
 COPY requirements.txt .
 
-# Install Python dependencies (CPU-only PyTorch) in one step
+# Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir torch==2.1.2 torchvision==0.16.2 \
-    fastapi uvicorn transformers
+    && pip install --no-cache-dir -r requirements.txt
 
 # Copy app code
 COPY . .
@@ -29,6 +19,8 @@ COPY . .
 RUN chown -R appuser:appuser /app
 USER appuser
 
+# Expose port
 EXPOSE 8000
 
+# Run FastAPI with Uvicorn
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
