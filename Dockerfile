@@ -1,5 +1,5 @@
-# Use pre-built CPU-only PyTorch image
-FROM pytorch/pytorch:2.1.2-cpu
+# Use pre-built CPU-only PyTorch image (ensure the tag exists)
+FROM pytorch/pytorch:2.1.2-cpu-py3.11
 
 # Create non-root user
 RUN useradd --create-home appuser
