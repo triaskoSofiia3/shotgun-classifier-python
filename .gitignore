@@ -1,0 +1,15 @@
+# Local env files
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtualenv
+venv/
+.envrc
+
+# OS
+.DS_Store

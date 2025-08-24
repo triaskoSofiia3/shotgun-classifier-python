@@ -1,4 +1,16 @@
 fastapi
 uvicorn
 transformers
-
+boto3
+requests
+pypdf
+python-docx
+sentence-transformers
+pymupdf
+mammoth
+ebooklib
+beautifulsoup4
+python-dotenv
+numpy<2
+torch==2.1.2
+torchvision==0.16.2
